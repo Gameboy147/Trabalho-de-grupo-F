@@ -1,4 +1,9 @@
 
+import json
+import os
+
+FICHEIRO = "Dados_Funcionarios.json"
+
 Dados_Funcionarios = []
 
 Funcoes = {
@@ -12,12 +17,29 @@ Funcoes = {
 }
 
 
+# GUARDAR FUNCIONÁRIOS NO FICHEIRO
+
+def guardar_funcionarios():
+    with open(FICHEIRO, "w", encoding="utf-8") as ficheiro:
+        json.dump(Dados_Funcionarios, ficheiro, ensure_ascii=False, indent=4)
+
+
+# CARREGAR FUNCIONÁRIOS DO FICHEIRO
+
+def carregar_funcionarios():
+    global Dados_Funcionarios
+
+    if os.path.exists(FICHEIRO):
+        with open(FICHEIRO, "r", encoding="utf-8") as ficheiro:
+            Dados_Funcionarios = json.load(ficheiro)
+
+
 def inserir_funcionarios():
     print("\n--- CRIAR FUNCIONÁRIO ---")
 
     NomeF = input("Nome do funcionário: ")
     IdadeF = int(input("Idade do funcionário: "))
-    TelemovelF = int(input("Número de telemóvel: "))
+    TelemovelF = input("Número de telemóvel: ")
 
     print("\nFunções disponíveis:")
     for numero, funcao in Funcoes.items():
@@ -38,6 +60,8 @@ def inserir_funcionarios():
                    FuncaoF, SalarioF, HorarioF]
 
     Dados_Funcionarios.append(funcionario)
+
+    guardar_funcionarios()
 
     print("\nFuncionário criado com sucesso!")
 
@@ -85,7 +109,7 @@ def editar_funcionario():
 
     TelemovelF = input("Novo telemóvel (" + str(funcionario[2]) + "): ")
     if TelemovelF != "":
-        funcionario[2] = int(TelemovelF)
+        funcionario[2] = TelemovelF
 
     print("\nFunções disponíveis:")
     for numeroF, funcao in Funcoes.items():
@@ -106,6 +130,8 @@ def editar_funcionario():
     if HorarioF != "":
         funcionario[5] = HorarioF
 
+    guardar_funcionarios()
+
     print("\nFuncionário editado com sucesso!")
 
 
@@ -125,9 +151,17 @@ def eliminar_funcionario():
 
     if confirmacao.upper() == "S":
         Dados_Funcionarios.pop(numero - 1)
+
+        guardar_funcionarios()
+
         print("Funcionário eliminado com sucesso!")
     else:
         print("Operação cancelada.")
+
+
+# CARREGAR DADOS AO INICIAR O PROGRAMA
+
+carregar_funcionarios()
 
 
 # MENU PRINCIPAL
