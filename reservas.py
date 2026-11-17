@@ -3,6 +3,8 @@ from datetime import date
 dados_reservas = []
 
 def inserir_reserva():
+    list = open("lista_reservas.txt", "a")
+
     nome = input("Insira o nome do que fez a reserva: ")
     email = input("Insira o email do que fez a reserva: ")
     tele = input("Insira o número de telemóvel do que fez a reserva: ")
@@ -22,12 +24,20 @@ def inserir_reserva():
 
     dados_reservas = [nome, email, tele, check_in, check_out, 
                       dia_diferenca, hora_chegada, tipo_quarto,
-                      quarto, preco, pedidos]
+                      quarto, preco, pedidos, "\n"]
 
     print(dados_reservas)
+    with list as f:
+        for linha in dados_reservas:
+            f.write(f"{linha}, ")
 
-def ver_reserva():
-    pass
+    list.close()
+    main()
+
+def ver_reservas():
+    list = open("lista_reservas.txt", "r")
+    print("Lista de reservas \n\n", list.read())
+    main()
 
 def editar_reserva():
     pass
@@ -35,17 +45,20 @@ def editar_reserva():
 def remover_reserva():
     pass
 
-op = int(input("O que quer fazer? \n" \
-"1 - Inserir reserva\n" \
-"2 - Vêr reservas\n"
-"3 - Editar reserva\n"
-"4 - Remover reserva\n"))
-match op:
-    case 1:
-        inserir_reserva()
-    case 2:
-        ver_reserva()
-    case 3:
-        editar_reserva()
-    case 4:
-        remover_reserva()
+def main():
+    op = int(input("\n\nO que quer fazer? \n" \
+    "1 - Inserir reserva\n" \
+    "2 - Ver reservas\n" \
+    "3 - Editar reserva\n" \
+    "4 - Remover reserva\n"))
+    match op:
+        case 1:
+            inserir_reserva()
+        case 2:
+            ver_reservas()
+        case 3:
+            editar_reserva()
+        case 4:
+            remover_reserva()
+
+main()
