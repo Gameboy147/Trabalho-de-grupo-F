@@ -26,4 +26,26 @@ def inserir_reserva():
 
     print(dados_reservas)
 
-inserir_reserva()
+def ver_reserva():
+    pass
+
+def editar_reserva():
+    pass
+
+def remover_reserva():
+    pass
+
+op = int(input("O que quer fazer? \n" \
+"1 - Inserir reserva\n" \
+"2 - Vêr reservas\n"
+"3 - Editar reserva\n"
+"4 - Remover reserva\n"))
+match op:
+    case 1:
+        inserir_reserva()
+    case 2:
+        ver_reserva()
+    case 3:
+        editar_reserva()
+    case 4:
+        remover_reserva()
