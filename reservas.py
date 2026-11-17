@@ -5,6 +5,7 @@ dados_reservas = []
 def inserir_reserva():
     list = open("lista_reservas.txt", "a")
 
+    num = 1
     nome = input("Insira o nome do que fez a reserva: ")
     email = input("Insira o email do que fez a reserva: ")
     tele = input("Insira o número de telemóvel do que fez a reserva: ")
@@ -22,17 +23,32 @@ def inserir_reserva():
     dia_check_out = date(int(dia_check_out[2]), int(dia_check_out[1]), int(dia_check_out[0]))
     dia_diferenca = (dia_check_out - dia_check_in).days
 
-    dados_reservas = [nome, email, tele, check_in, check_out, 
-                      dia_diferenca, hora_chegada, tipo_quarto,
-                      quarto, preco, pedidos, "\n"]
+    num = encontrar_num_reserva(0)
 
-    print(dados_reservas)
+    dados_reservas = [num, nome, email, tele, check_in, check_out, 
+                      dia_diferenca, hora_chegada, tipo_quarto,
+                      quarto, preco, pedidos]
+
     with list as f:
         for linha in dados_reservas:
             f.write(f"{linha}, ")
 
+    list.write("\n")
     list.close()
     main()
+
+def encontrar_num_reserva(num_reserva):
+    list = open("lista_reservas.txt", "r")
+    num = []
+    
+    for line in list:
+        if line.strip():
+            num.append(line.split(maxsplit=1)[0])
+    if num_reserva == 0:
+        return num[-1]
+    for i in num:
+        if num[i] == num_reserva:
+            return num[i]
 
 def ver_reservas():
     list = open("lista_reservas.txt", "r")
@@ -60,5 +76,7 @@ def main():
             editar_reserva()
         case 4:
             remover_reserva()
+        case 5:
+            encontrar_num_reserva()
 
 main()
